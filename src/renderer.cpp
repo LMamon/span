@@ -45,9 +45,9 @@ namespace span {
                     const std::string& color = team_color(team.id);
                 
                     for (const Agent& agent : team.agents) {
-                        if (agent.visited().find(position) != agent.visited().end()) {
+                        if (cell.last_visited_by != 0) {
                             symbol = "■";
-                            symbol_color = color;
+                            symbol_color = team_color(cell.last_visited_by);
                         }
 
                         if (std::find(agent.path().begin(),

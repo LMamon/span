@@ -32,6 +32,15 @@ namespace span {
                 //filter out bad candidates
                 if (!grid_.contains(next)) continue;
                 if (!grid_.traversable(next)) continue;
+
+                if (dx != 0 && dy != 0) {
+                    Position horizontal{ position.x + dx, position.y };
+                    Position vertical{ position.x, position.y + dy };
+                    
+                    if (!grid_.traversable(horizontal) && !grid_.traversable(vertical)) {
+                        continue;
+                    }
+                }
                 
                 neighbors.push_back(next);        
             }

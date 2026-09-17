@@ -79,7 +79,7 @@ namespace span {
                     break;
 
                 std::this_thread::sleep_for(
-                    std::chrono::milliseconds(200)
+                    std::chrono::milliseconds(2000)
                 );
             }
 

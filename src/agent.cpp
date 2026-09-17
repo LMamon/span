@@ -26,7 +26,6 @@ namespace span {
         // record visited cell
         visited_.insert(position_);
         
-        
         // update position_
         position_ = path_[path_index_++];
     }

@@ -15,8 +15,8 @@ namespace span {
             Position position() const { return position_; }
             Position start() const { return start_; }
 
-            std::set<Position> visited() const { return visited_; }
-            std::vector<Position> path() const { return path_; }
+            const std::set<Position>& visited() const { return visited_; }
+            const std::vector<Position>& path() const { return path_; }
 
             bool finished() const { return path_index_ >= path_.size(); }
             void update(const Grid& grid);
