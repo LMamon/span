@@ -23,7 +23,6 @@ namespace span {
     
     struct Cell {
         Occupancy occupancy = Occupancy::Free;
-    std::size_t last_visited_by = 0;    
     };
 
     struct GridConfig {

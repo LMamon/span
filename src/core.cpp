@@ -9,6 +9,7 @@
 #include <thread>
 #include <random>
 #include <chrono>
+#include <map>
 
 namespace span {
     void Core::run(const volatile std::sig_atomic_t& stop_requested) {
@@ -25,6 +26,7 @@ namespace span {
 
             // Group agents into teams.
             std::vector<Team> teams = create_teams(std::move(agents));
+            std::map<Position, std::size_t> visited_by;
 
             // Configure mission and assign goals.
             Mission mission(config.mission_type);
@@ -41,7 +43,7 @@ namespace span {
             std::cout << "\033[2J\033[H";
 
             // Render initial state before any agents move.
-            renderer.render(grid, teams, mission.goals());
+            renderer.render(grid, teams, mission.goals(), visited_by);
             std::cout << std::flush;
 
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
@@ -57,29 +59,29 @@ namespace span {
 
                 // Redraw the same terminal frame.
                 std::cout << "\033[H";
-                renderer.render(grid, teams, mission.goals());
+                renderer.render(grid, teams, mission.goals(), visited_by);
                 std::cout << std::flush;
 
                 // Check whether every agent has completed its route.
                 bool all_finished = true;
 
-                for (const Team& team : teams) {
-                    for (const Agent& agent : team.agents) {
+                for (Team& team : teams) {
+                    for (Agent& agent : team.agents) {
                         if (!agent.finished()) {
-                            all_finished = false;
-                            break;
+                            Position visited = agent.position();
+
+                            agent.update(grid);
+
+                            visited_by[visited] = team.id;
                         }
                     }
-
-                    if (!all_finished)
-                        break;
                 }
 
                 if (all_finished)
                     break;
 
                 std::this_thread::sleep_for(
-                    std::chrono::milliseconds(2000)
+                    std::chrono::milliseconds(200)
                 );
             }
 

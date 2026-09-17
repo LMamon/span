@@ -6,7 +6,11 @@
 #include <iostream>
 
 namespace span {
-    void Renderer::render(const Grid& grid, const std::vector<Team>& teams, const std::vector<Position>& goals) {
+    void Renderer::render(const Grid& grid, 
+                          const std::vector<Team>& teams, 
+                          const std::vector<Position>& goals, 
+                          const std::map<Position, std::size_t>& visited_by) {
+                            
         const std::string red = "\033[38;2;255;0;102m";
         const std::string green = "\033[38;2;57;255;20m";
         const std::string blue = "\033[38;2;0;246;255m";
@@ -45,9 +49,9 @@ namespace span {
                     const std::string& color = team_color(team.id);
                 
                     for (const Agent& agent : team.agents) {
-                        if (cell.last_visited_by != 0) {
+                        if (agent.visited().find(position) != agent.visited().end()) {
                             symbol = "■";
-                            symbol_color = team_color(cell.last_visited_by);
+                            symbol_color = color;
                         }
 
                         if (std::find(agent.path().begin(),
