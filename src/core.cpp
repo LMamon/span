@@ -49,22 +49,7 @@ namespace span {
             std::this_thread::sleep_for(std::chrono::milliseconds(200));
 
             while (!stop_requested) {
-
                 // Advance every agent one step.
-                for (Team& team : teams) {
-                    for (Agent& agent : team.agents) {
-                        agent.update(grid);
-                    }
-                }
-
-                // Redraw the same terminal frame.
-                std::cout << "\033[H";
-                renderer.render(grid, teams, mission.goals(), visited_by);
-                std::cout << std::flush;
-
-                // Check whether every agent has completed its route.
-                bool all_finished = true;
-
                 for (Team& team : teams) {
                     for (Agent& agent : team.agents) {
                         if (!agent.finished()) {
@@ -77,12 +62,28 @@ namespace span {
                     }
                 }
 
-                if (all_finished)
-                    break;
+                // Redraw the same terminal frame.
+                std::cout << "\033[H";
+                renderer.render(grid, teams, mission.goals(), visited_by);
+                std::cout << std::flush;
 
-                std::this_thread::sleep_for(
-                    std::chrono::milliseconds(200)
-                );
+                // Check whether every agent has completed its route.
+                bool all_finished = true;
+
+                for (const Team& team : teams) {
+                    for (const Agent& agent : team.agents) {
+                        if (!agent.finished()) {
+                            all_finished = false;
+                            break;
+                        }
+                    }
+
+                    if (!all_finished) break;
+                }
+
+                if (all_finished) break;
+
+                std::this_thread::sleep_for(std::chrono::milliseconds(500));
             }
 
         } catch (const std::invalid_argument& e) {
