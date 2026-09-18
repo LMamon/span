@@ -9,15 +9,14 @@
 namespace span {
 
     class Mission {
-        public: 
-            Mission(MissionType type);
-        
-            void configure(const Grid& grid, std::vector<Team>& teams);
+        public:
+            explicit Mission(MissionType type);
 
+            void configure(const Grid& grid, std::vector<Team>& teams);
             const std::vector<Position>& goals() const { return goals_; }
-        
+
         private:
             MissionType type_;
-            std::vector<Position> goals_;     
+            std::vector<Position> goals_;
     };
 }

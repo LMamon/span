@@ -1,35 +1,75 @@
 # Span
 
-Data structures, algorithms and path planning for autonomous agents, visualized in the terminal.
+Data structures, algorithms and path planning for autonomous agents in a simple 3D grid world.
 
-Span is a small C++ demo and tutorial for implementing the data structures and
-algorithms behind autonomous agents and the standard path planning algorithms without relying on a game engine or simulation framework.
+Span is a small C++ demo and tutorial for implementing the data structures and algorithms behind autonomous agents and standard path planning algorithms without relying on a game engine or simulation framework.
 
-The environment is intentionally simple: a fixed-width grid rendered directly
-in the terminal. Agents, obstacles, paths, and algorithm state are represented
-with basic symbols so the implementation stays focused on the underlying
-concepts.
+The simulation runs headlessly. A run records its world, obstacles, planned paths, goals, and agent positions to JSON. A small Plotly utility can turn that recording into a standalone animated 3D HTML file afterward.
 
-The repository builds up from the environment and its data structures into
-path planning, optimization, and agent behavior, with each implementation
-designed to be small enough to read, run, modify, and understand.
+## Build and run
 
-## Visualization
+```bash
+./run.sh
+```
 
-| Symbol | Meaning |
-| --- | --- |
-| ` ` | Free space |
-| `X` | Blocked space |
-| `●` | Selected path |
-| `○` | Agent |
+Span prompts for:
+
+- X / columns
+- Y / rows
+- Z / depth
+- blocked-cell probability
+- mission type
+- agent count
+- planner
+
+A completed simulation writes a file under `runs/`:
+
+```text
+runs/run-YYYYMMDD-HHMMSS.json
+```
+
+The Nano does not need a desktop session or graphics stack.
+
+## Render a run
+
+On the machine where you want to view the run:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r tools/requirements.txt
+python tools/render.py runs/run-YYYYMMDD-HHMMSS.json
+```
+
+The renderer produces a standalone HTML file beside the run and opens it in the default browser. The browser is only the offline display surface; Span itself has no web server, JavaScript application, or browser dependency.
+
+The 3D view contains blocked cells, mission goals, planned paths, and animated agent positions. The camera can be rotated, panned, and zoomed without affecting the recorded simulation.
+
+## Current planner status
+
+- A*: implemented in 3D with 26-neighbor movement
+- RRT: CLI placeholder; not implemented yet
+- RRT*: CLI placeholder; not implemented yet
+- Coverage mission: placeholder; not implemented yet
+
+## Repository layout
+
+```text
+include/span/      C++ interfaces
+src/               simulation, world, planner, recorder
+tools/render.py    offline Plotly renderer
+runs/              generated run recordings
+```
 
 ## Contents
 
-- Grid and spatial data structures
-- Autonomous agent behavior
-- Graph search and path planning
+- 3D grid and spatial data structures
+- autonomous agent behavior
+- graph search and path planning
+- offline run recording and replay visualization
 
 ### under construction
-- Swarm algorithms
-- Sampling-based planning
-- Genetic and evolutionary algorithms
+
+- swarm algorithms
+- sampling-based planning
+- genetic and evolutionary algorithms

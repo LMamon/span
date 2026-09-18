@@ -6,6 +6,6 @@ namespace span {
     };
 
     enum class PlannerType {
-        Astar, Rrt, Rrtstar   
+        Astar, Rrt, Rrtstar
     };
 }

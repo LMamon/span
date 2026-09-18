@@ -4,7 +4,6 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BUILD="$ROOT/build"
 
 if cmake -S "$ROOT" -B "$BUILD" && cmake --build "$BUILD"; then
-    clear
     exec "$BUILD/span"
 else
     echo

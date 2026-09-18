@@ -6,7 +6,7 @@
 namespace {
     volatile std::sig_atomic_t stop_requested = 0;
     void signalHandler(int) { stop_requested = 1; }
-} 
+}
 
 int main() {
     std::signal(SIGINT, signalHandler);

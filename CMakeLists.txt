@@ -10,10 +10,10 @@ add_executable(span
     src/main.cpp
     src/core.cpp
     src/grid.cpp
-    src/renderer.cpp
     src/astar.cpp
     src/agent.cpp
     src/mission.cpp
+    src/recorder.cpp
 )
 
 target_include_directories(span PRIVATE
