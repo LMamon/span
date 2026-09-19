@@ -14,6 +14,8 @@ add_executable(span
     src/agent.cpp
     src/mission.cpp
     src/recorder.cpp
+    src/rrt.cpp
+    src/grid_utils.cpp
 )
 
 target_include_directories(span PRIVATE

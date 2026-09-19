@@ -33,9 +33,6 @@ namespace span {
                 }
             };
 
-            double heuristic(Position a, Position b) const;
-            double movement_cost(Position a, Position b) const;
-            std::vector<Position> generate_neighbors(Position position) const;
             std::vector<Position> reconstruct_path() const;
 
             const Grid& grid_;
