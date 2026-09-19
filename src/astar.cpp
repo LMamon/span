@@ -2,7 +2,6 @@
 #include <span/grid_utils.hpp>
 
 #include <algorithm>
-#include <cmath>
 #include <iostream>
 
 namespace span {

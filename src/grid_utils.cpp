@@ -1,6 +1,7 @@
 #include <span/grid_utils.hpp>
 
 #include <cmath>
+#include <algorithm>
 
 namespace span {
 
@@ -63,4 +64,32 @@ namespace span {
         return neighbors;
     }
 
+
+    bool collision_free(const Grid& grid, Position a, Position b) {
+        int dx = b.x - a.x;
+        int dy = b.y - a.y;
+        int dz = b.z - a.z;
+        
+        int steps = std::max({std::abs(dx), 
+                              std::abs(dy), 
+                              std::abs(dz)});
+
+        if (steps == 0) return grid.traversable(a);
+
+        for (int i = 0; i <= steps; ++i) {
+            double t = static_cast<double>(i) / steps;
+
+            double x = a.x + dx * t;
+            double y = a.y + dy * t;
+            double z = a.z + dz * t;
+
+            Position cell{static_cast<int>(std::round(x)), 
+                          static_cast<int>(std::round(y)), 
+                          static_cast<int>(std::round(z))};
+
+            if (!grid.traversable(cell)) return false;
+        }
+
+        return true;
+    }
 }
