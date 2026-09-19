@@ -33,10 +33,10 @@ namespace span {
         std::size_t width = 0;
         std::size_t height = 0;
         std::size_t depth = 0;
-        double blocked_probability = 0.0;
-        MissionType mission_type = MissionType::Path;
+        double blocked_probability;
+        MissionType mission_type;
         int agent_count = 1;
-        PlannerType planner_type = PlannerType::Astar;
+        PlannerType planner_type;
     };
 
     class Grid {
@@ -76,9 +76,9 @@ namespace span {
             std::size_t depth_ = 0;
             std::vector<Cell> cells_;
 
-            MissionType mission_type_ = MissionType::Path;
+            MissionType mission_type_;
             int agent_count_ = 1;
-            PlannerType planner_type_ = PlannerType::Astar;
+            PlannerType planner_type_;
     };
 
     Position random_position(const Grid& grid);

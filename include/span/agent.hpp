@@ -25,7 +25,7 @@ namespace span {
         private:
             Position position_;
             Position start_;
-            Position goal_{0, 0, 0};
+            Position goal_;
             std::vector<Position> path_;
             std::size_t path_index_ = 0;
             std::set<Position> visited_;
@@ -34,7 +34,7 @@ namespace span {
     struct Team {
         std::size_t id = 0;
         std::vector<Agent> agents;
-        Position goal{0, 0, 0};
+        Position goal;
 
         void assign_goal(Position position) {
             goal = position;

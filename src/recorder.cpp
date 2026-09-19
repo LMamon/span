@@ -67,6 +67,7 @@ namespace span {
     std::string RunRecorder::write(const Grid& grid,
                                    const std::vector<Team>& teams,
                                    const std::vector<Position>& goals) const {
+                                    
         const std::string path = output_path();
         std::ofstream out(path);
         if (!out) throw std::runtime_error("could not open run output file");

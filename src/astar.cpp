@@ -5,12 +5,11 @@
 #include <iostream>
 
 namespace span {
-    Astar::Astar(const Grid& grid, Position start, Position goal)
-        : grid_(grid),
-          start_(start),
-          goal_(goal),
-          closed_(grid.width() * grid.height() * grid.depth(), false),
-          nodes_(grid.width() * grid.height() * grid.depth()) {}
+    Astar::Astar(const Grid& grid, Position start, Position goal) : grid_(grid),
+                                                                    start_(start),
+                                                                    goal_(goal),
+                                                                    closed_(grid.width() * grid.height() * grid.depth(), false),
+                                                                    nodes_(grid.width() * grid.height() * grid.depth()) {}
 
     double Astar::heuristic(Position a, Position b) const {
         const double dx = static_cast<double>(b.x - a.x);
@@ -24,6 +23,7 @@ namespace span {
         if (a.x != b.x) ++changed_axes;
         if (a.y != b.y) ++changed_axes;
         if (a.z != b.z) ++changed_axes;
+        
         return std::sqrt(static_cast<double>(changed_axes));
     }
 
@@ -41,8 +41,8 @@ namespace span {
 
                     const int changed_axes = (dx != 0) + (dy != 0) + (dz != 0);
 
-                    // Preserve the 2D rule's intent in 3D: diagonal motion cannot
-                    // squeeze through a corner when every axis-adjacent escape is blocked.
+                    // diagonal motion cannot squeeze through a corner when every
+                    //  axis-adjacent escape is blocked.
                     if (changed_axes > 1) {
                         bool any_axis_open = false;
                         if (dx != 0 && grid_.traversable({position.x + dx, position.y, position.z})) {
