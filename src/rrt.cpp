@@ -38,7 +38,7 @@ namespace span {
         Position nearest = tree[0].position;
         double smallest = distance(nearest, qrand);
 
-        for (std::size_t i = 0; i < tree.size(); ++i) {
+        for (std::size_t i = 1; i < tree.size(); ++i) {
             double d = distance(tree[i].position, qrand);
             
             if (d <= smallest) {
@@ -65,13 +65,9 @@ namespace span {
         return qnew;
     }
 
-    void connect(Position qnear, Position qnew) {
-        
-    }
-
     std::vector<Position> Rrt::plan() {
         tree_.clear();
-        tree_.emplace_back(start_, start_);
+        tree_.push_back({start_, start_});
 
         for (std::size_t i = 0; i < K_; ++i) {
             Position qrand = random_position(grid_);
@@ -81,23 +77,22 @@ namespace span {
             if (!grid_.traversable(qnew)) continue;
             if (!collision_free(grid_, qnear, qnew)) continue;
 
-            if (std::any_of(tree_.begin(), tree_.end(), [&](const Node& node) { 
-                return node.position == qnew; 
+            if (std::any_of(tree_.begin(), tree_.end(), [&](const Node& node) {
+                return node.position == qnew;
             })) {
-
-            continue;
+                continue;
             }
 
-            tree_.emplace_back(qnew);
-            
-            if (collision_free(grid_, qnew, goal_)) {
-                tree_.emplace_back(goal_, qnew);
+            tree_.push_back({qnew, qnear});
 
+            if (collision_free(grid_, qnew, goal_)) {
+                tree_.push_back({goal_, qnew});
                 return reconstruct_path();
-            }   
+            }
         }
 
-        std::cout << ">>>“RRT exhausted "<< K_ << "iterations without finding a path.”<<<\n";
+        std::cout << ">>>RRT exhausted " << K_ << " iterations without finding a path.<<<\n";
+
         return {};
-    };    
+    }
 }

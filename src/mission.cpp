@@ -1,5 +1,6 @@
 #include <span/mission.hpp>
 #include <span/astar.hpp>
+#include <span/rrt.hpp>
 
 #include <iostream>
 
@@ -50,10 +51,18 @@ namespace span {
                 }
                 break;
 
-            case PlannerType::Rrt:
-                std::cout << "RRT planner is not implemented yet\n";
-                break;
+            case PlannerType::Rrt: {
+                const std::size_t volume = grid.width() * grid.height() * grid.depth();
+                const std::size_t K = static_cast<std::size_t>(volume * 0.10);
 
+                const double delta_q = 3.0;
+
+                for (Agent& agent : agents) {
+                    Rrt plan(grid, agent.position(), goal, K, delta_q);
+                    agent.set_path(plan.plan());
+                }
+                break;
+            }
             case PlannerType::Rrtstar:
                 std::cout << "RRT* planner is not implemented yet\n";
                 break;
