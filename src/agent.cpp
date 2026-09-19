@@ -7,7 +7,12 @@ namespace span {
         std::vector<Team> teams;
 
         for (std::size_t i = 0; i < agents.size(); ++i) {
-            if (i % MAX_TEAM_SIZE == 0) teams.emplace_back();
+            if (i % MAX_TEAM_SIZE == 0) {
+                Team team;
+                team.id = teams.size() + 1;
+                teams.push_back(std::move(team));
+            }
+
             teams.back().agents.push_back(std::move(agents[i]));
         }
 
